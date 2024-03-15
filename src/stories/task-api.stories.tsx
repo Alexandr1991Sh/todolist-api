@@ -1,19 +1,15 @@
 import React, {useEffect, useState} from 'react'
-import axios from 'axios'
-import {todolistAPI} from "../api/todolist-api";
+import {taskAPI} from "../api/task-api";
 
 export default {title: 'API - TASK'}
-
-const config = {withCredentials: true}
 
 export const GetTask = () => {
     const [state, setState] = useState(null)
     const todolistId = '28352e17-96ee-46f8-9cfb-656688d9e471'
     useEffect(() => {
-        axios.get(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks`, config)
-            .then(res => {
-                setState(res.data)
-            })
+        taskAPI.getTask(todolistId).then(res => {
+            setState(res.data)
+        })
     }, []);
     return <div>{JSON.stringify(state)}</div>
 }
@@ -21,11 +17,9 @@ export const GetTask = () => {
 export const CreateTask = () => {
     const [state, setState] = useState(null)
     const todolistId = '28352e17-96ee-46f8-9cfb-656688d9e471'
+    const title = 'New Task'
     useEffect(() => {
-        axios.post(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks`,
-            {title: 'New Task'},
-            config
-        ).then(res => {
+        taskAPI.createTask(todolistId, title).then(res => {
             setState(res.data)
         })
     }, []);
@@ -35,12 +29,11 @@ export const CreateTask = () => {
 export const DeleteTask = () => {
     const [state, setState] = useState(null)
     const todolistId = '28352e17-96ee-46f8-9cfb-656688d9e471'
-    const taskId = 'c6594139-639c-4072-b141-76276891ce47'
+    const taskId = '65689472-2c8c-4381-9f43-7e81bed49fdc'
     useEffect(() => {
-        axios.delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks/${taskId}`, config)
-            .then(res => {
-                setState(res.data)
-            })
+        taskAPI.deleteTask(todolistId, taskId).then(res => {
+            setState(res.data)
+        })
     }, []);
     return <div>{JSON.stringify(state)}</div>
 }
@@ -48,12 +41,10 @@ export const DeleteTask = () => {
 export const UpdateTask = () => {
     const [state, setState] = useState(null)
     const todolistId = '28352e17-96ee-46f8-9cfb-656688d9e471'
-    const taskId = 'f1fd4b62-4a4d-4dfc-b969-d9c4fc7e11fa'
+    const taskId = '65689472-2c8c-4381-9f43-7e81bed49fdc'
+    const title = 'Update Task'
     useEffect(() => {
-        axios.put(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks/${taskId}`,
-            {title: 'Update Task'},
-            config
-        ).then(res => {
+        taskAPI.updateTask(todolistId, taskId, title).then(res => {
             setState(res.data)
         })
     }, []);
